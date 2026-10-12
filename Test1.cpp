@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-//#include "Event.h"
+#include "Event.h"
 
 // Quelques conseils avant de commencer...
 // * N'oubliez pas de tracer (cout << ...) tous les constructeurs et le destructeur !!! Ca, c'est pas un conseil,
@@ -15,73 +15,6 @@ using namespace std;
 // * Une fois que tout le programme compile et fonctionne correctement, creez le .h contenant la declaration
 //   de la classe, le .cpp contenant la definition des methodes, et ensuite le makefile permettant de compiler
 //   le tout grace a la commande make 
-
-class Event 
-{
-private: 
-  int code;
-  char* title;
-public:
-  Event();
-  ~Event();
-  int getCode() const;
-  void setCode(int);
-  const char* getTitle() const;
-  void setTitle(const char*);
-  void display() const;
-  Event(int c, const char* t);
-  
-};
-void Event::display() const
-{
-  cout << "Event [code= " << code <<"] :" << endl;
-  if (title != nullptr)
-  {
-    cout << title;
-  }
-  else
-  {
-    cout << "pas de titre!!" << endl;
-  }
-  cout << endl;
-}
-
-Event::Event()
-{
-  cout << "constructeur par defaut" << endl;
-  code = 0;
-  title = nullptr;
-}
-Event::~Event()
-{
-  cout << "destructeur" << endl;
-  delete[] title;
-}
-int Event :: getCode() const
-{
-  return code;
-}
-const char* Event :: getTitle() const
-{
-  return title;
-}
-void Event :: setCode(int c)
-{
-  code = c;
-}
-void Event :: setTitle(const char* t)
-{
-  delete[] title;
-  title = new char[strlen(t)+1];
-    strcpy(title,t);
-}
-Event :: Event(int c, const char* t)
-{
-  cout << "constructeur d’initialisation" << endl;
-  setCode(c);
-  title = nullptr;
-  setTitle(t);
-}
 
 int main()
 {
@@ -107,44 +40,44 @@ int main()
     event.display();
   }
 
-  // cout << endl << "(4) ***** Test du constructeur de copie ****************************************" << endl;
-  // {
-  //   Event event1(1,"Labo C++");
-  //   cout << "event1 (AVANT) :" << endl;
-  //   event1.display();
-  //   {   
-  //     Event event2(event1);
-  //     cout << "event2 :" << endl;
-  //     event2.display();
-  //     event2.setTitle("Labo LINUX");
-  //     event2.display();
-  //   } // de nouveau, les {} assurent que event2 sera detruit avant la suite
-  //   cout << "event1 (APRES) :" << endl;
-  //   event1.display();
-  // }
+  cout << endl << "(4) ***** Test du constructeur de copie ****************************************" << endl;
+  {
+    Event event1(1,"Labo C++");
+    cout << "event1 (AVANT) :" << endl;
+    event1.display();
+    {   
+      Event event2(event1);
+      cout << "event2 :" << endl;
+      event2.display();
+      event2.setTitle("Labo LINUX");
+      event2.display();
+    } // de nouveau, les {} assurent que event2 sera detruit avant la suite
+    cout << "event1 (APRES) :" << endl;
+    event1.display();
+  }
 
-  // cout << endl << "(5) ***** Test d'allocation dynamique (constructeur par defaut) ****************" << endl;
-  // {
-  //   Event *p = new Event();
-  //   p->setCode(3);
-  //   p->setTitle("Visite medicale");
-  //   p->display();
-  //   delete p;
-  // }
+  cout << endl << "(5) ***** Test d'allocation dynamique (constructeur par defaut) ****************" << endl;
+  {
+    Event *p = new Event();
+    p->setCode(3);
+    p->setTitle("Visite medicale");
+    p->display();
+    delete p;
+  }
 
-  // cout << endl << "(6) ***** Test d'allocation dynamique (constructeur de copie) ******************" << endl;
-  // {
-  //   Event event1(5,"Theorie C++");
-  //   cout << "event1 (AVANT) :" << endl;
-  //   event1.display();
-  //   Event* p = new Event(event1);
-  //   cout << "La copie :" << endl;
-  //   p->display();
-  //   cout << "Destruction de la copie..." << endl; 
-  //   delete p;
-  //   cout << "event1 (APRES) :" << endl;
-  //   event1.display();
-  // }
+  cout << endl << "(6) ***** Test d'allocation dynamique (constructeur de copie) ******************" << endl;
+  {
+    Event event1(5,"Theorie C++");
+    cout << "event1 (AVANT) :" << endl;
+    event1.display();
+    Event* p = new Event(event1);
+    cout << "La copie :" << endl;
+    p->display();
+    cout << "Destruction de la copie..." << endl; 
+    delete p;
+    cout << "event1 (APRES) :" << endl;
+    event1.display();
+  }
 
   return 0;
 }
