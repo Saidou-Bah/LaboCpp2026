@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
+#include <cstring>
 using namespace std;
 //#include "Event.h"
 
@@ -23,7 +24,12 @@ private:
 public:
   Event();
   ~Event();
+  int getCode() const;
+  void setCode(int);
+  const char* getTitle() const;
+  void setTitle(const char*);
   void display() const;
+  Event(int c, const char* t);
   
 };
 void Event::display() const
@@ -51,6 +57,31 @@ Event::~Event()
   cout << "destructeur" << endl;
   delete[] title;
 }
+int Event :: getCode() const
+{
+  return code;
+}
+const char* Event :: getTitle() const
+{
+  return title;
+}
+void Event :: setCode(int c)
+{
+  code = c;
+}
+void Event :: setTitle(const char* t)
+{
+  delete[] title;
+  title = new char[strlen(t)+1];
+    strcpy(title,t);
+}
+Event :: Event(int c, const char* t)
+{
+  cout << "constructeur d’initialisation" << endl;
+  setCode(c);
+  title = nullptr;
+  setTitle(t);
+}
 
 int main()
 {
@@ -60,21 +91,21 @@ int main()
     event.display();
   } // La presence des accolades assure que le destructeur de Event sera appele --> a tracer !
 
-  // cout << endl << "(2) ***** Test des setters et getters *****" << endl;
-  // {
-  //   Event event;
-  //   event.setCode(1);
-  //   event.setTitle("Resto avec Patrick (Merci Patrick :)");
-  //   event.display();
-  //   cout << "Code  = " << event.getCode() << endl;
-  //   cout << "Title = " << event.getTitle() << endl;
-  // }
+  cout << endl << "(2) ***** Test des setters et getters *****" << endl;
+  {
+    Event event;
+    event.setCode(1);
+    event.setTitle("Resto avec Patrick (Merci Patrick :)");
+    event.display();
+    cout << "Code  = " << event.getCode() << endl;
+    cout << "Title = " << event.getTitle() << endl;
+  }
 
-  // cout << endl << "(3) ***** Test du constructeur d'initialisation ********************************" << endl;
-  // {
-  //   Event event(2,"Cinema avec les potos");
-  //   event.display();
-  // }
+  cout << endl << "(3) ***** Test du constructeur d'initialisation ********************************" << endl;
+  {
+    Event event(2,"Cinema avec les potos");
+    event.display();
+  }
 
   // cout << endl << "(4) ***** Test du constructeur de copie ****************************************" << endl;
   // {
